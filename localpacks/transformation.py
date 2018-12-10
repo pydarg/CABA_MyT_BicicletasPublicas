@@ -1,0 +1,1 @@
+#Funcion que transforma los datos a una vista jerarquica por ejemplo INDICES JERARQUICOS, GROUP BY
