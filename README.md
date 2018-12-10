@@ -84,10 +84,26 @@ Podemos observar que para cada período, los datos presentan diferentes  número
   - Estado: **[Sin Iniciar]**
 
 
+## Software
 
-## Instalación
+Este código ha sido probado con Python 3.5, es posible que funcione correctamente con Python 2.7 y otras versionnes anteriores.
 
-Se recomienda clonar este repositorio o copiar manualmente el fichero `localpacks` en el directorio de trabajo.
+Los paquetes necesarios para trabajar con este repositario están listados en [requirements.txt](requirements.txt) (Nota: Es posible que puedas utilizar versiones más nuevas y siga funcionando adecuadamente).
+Para instalar los requerimientos en [conda](http://conda.pydata.org), ejecuta la siguiente línea de comandos en la terminal:
+
+```
+$ conda install --file requirements.txt
+```
+
+Si quieres crear un entorno aislado ``BICIS`` con Python 3.5 y todos los paquetes requeridos, ejecuta el siguiente código:
+
+```
+$ conda create -n BICIS python=3.5 --file requirements.txt
+```
+
+Puedes leer más acerca de entornos virtuales en [Managing Environments](http://conda.pydata.org/docs/using/envs.html) en la documentación de conda.
+
+**IMPORTANTE:** El fichero `localpacks`es un paquete creado lcoalmente, por lo que se recomienda clonar este repositorio o copiar manualmente el fichero `localpacks` en el directorio de trabajo.
 
 ## Uso
 
