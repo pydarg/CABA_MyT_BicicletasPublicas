@@ -52,7 +52,7 @@ def draw_mult_map(df_a, df_b):
                control_scale=True)
     
     feature_group_estaciones = folium.FeatureGroup(name='Estaciones de Bicicletas')
-    feature_group_tiendas = folium.FeatureGroup(name='Tiendas')
+    feature_group_tiendas = folium.FeatureGroup(name='bicicleterias')
     
     marker_cluster_estaciones = MarkerCluster()
     marker_cluster_tiendas = MarkerCluster()

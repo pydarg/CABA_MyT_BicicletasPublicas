@@ -23,6 +23,15 @@ FILENAME = {'2010' : r'./data/recorridos-realizados-2010.csv',
             '2017' : r'./data/recorridos-realizados-2017.csv',
             '2018' : r'./data/recorridos-realizados-2018.csv'}
 
+#DATOS ADICIONALES
+URL_OTHERS = {'estaciones' : r'https://data.buenosaires.gob.ar/api/files/estaciones-de-bicicletas-publicas.csv/download/csv',
+              'bicicleterias' : r'https://data.buenosaires.gob.ar/api/files/bicicleterias-de-la-ciudad.csv/download/csv'
+             }
+
+FILENAME_OTHER = { 'estaciones' : r'./data/estaciones-de-bicicletas-publicas.csv',
+                  'bicicleterias' : r'./data/bicicleterias-de-la-ciudad.csv'
+                 }
+
 #FUNCIONES
 def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
     '''    
@@ -31,7 +40,7 @@ def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
     year: integer (optional)
         periodo de recoleccion de los datos, por defecto 2017
     filename: string (optional)
-        ruta donde quedara almacenado el data set
+        ruta donde se almacena el data set
     url: string (optional)
         direccion url donde se encuentran alojados los datos
     force_download = boolean (optional)
@@ -44,7 +53,7 @@ def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
     --------
     None
     '''
-    if str(year) in URL.keys():#verificamos si el periodo de estudio esta disponible
+    if str(year) in url.keys():#verificamos si el periodo de estudio esta disponible
         if force_download or not os.path.exists(filename[str(year)]):
             urlretrieve( url[str(year)], filename[str(year)])
         if str(year) in ['2015', '2016', '2017', '2018']:#estos periodos tienen parametros de coding particulares
@@ -71,6 +80,60 @@ def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
     """
     )
     return data
+
+
+def get_data_others(select = 'estaciones', format_data = True, filename = FILENAME_OTHER, url = URL_OTHERS, force_download=False):
+    '''    
+    PARAMETERS
+    ----------
+    select: str (optional)
+        data set adicional a escoger, entre la opciones están ['estaciones', 'bicicleterias']
+    format_data: Bolean (optional)
+        da formato a nuestro data frame, fechas, nombre de columnas, etc.
+    filename: string (optional)
+        ruta donde se almacena el data set
+    url: string (optional)
+        direccion url donde se encuentran alojados los datos
+    force_download = boolean (optional)
+        si es True, forzara la descarga del data set
+    RETURN
+    ------
+    data: pandas.DataFrame
+        retorna un data frame seleccionado
+    EXAMPLES
+    --------
+    None
+    '''
+    if select in url.keys():#verificamos si el periodo de estudio esta disponible
+        if force_download or not os.path.exists(filename[select]): #verificamos si ya esta descargado el data set
+            urlretrieve( url[select], filename[select])
+            data = pd.read_csv(filename[select]) 
+            
+            if select == 'estaciones' and format_data == True:
+                data = format_estaciones(data)
+            elif select == 'tiendas' and format_data == True:
+                data = format-tienda(data)
+    else:
+        data = None
+        print('data = NONE. El data set que intenta seleccionar no existe en URL_OTHER.keys()')
+    return data
+
+def format_estaciones(df):
+    '''
+    PARAMETERS
+    ----------
+    df: pandas Data Frame (obligatorio)
+        data frame que contiene tiendas de bicicletas con las coordenadas gps y datos adicionales.
+    RETURN
+    ------
+    df: pandas Data Frame
+        unicamente con los atributos esenciales para georeferenciar las tiendas de las biclicetas
+    '''
+    tiendas.drop(['calle','altura','calle2','telefono','email','web','mecanica_s','horario_de','barrio','comuna','codigo_postal','codigo_postal_argentino'], 
+                 axis = 1, inplace = True) #eliminamos las columnas que no usaremos
+    tiendas = tiendas[['nombre', 'lat', 'long']] #reordenamos el orden de las columnas
+    return df
+
 
 
 def format_data(df):
