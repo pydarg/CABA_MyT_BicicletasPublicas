@@ -1,8 +1,6 @@
 # Bicicletas Públicas -- Argentina, Capital Federal.
 
-[![Binder](https://mybinder.org/)](https://mybinder.org/)
-[![Colab](https://colab.research.google.com/)](https://colab.research.google.com)
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pydarg/CABA_MyT_BicicletasPublicas.git/master)
 
 **Descripcion:** El presente repositorio se desarrolla contexto del conjunto de DATASETS referentes al uso de las biclicletas públicas argentinas en CABA, en el cual se buscar describir el comportamiento de entradas y salidas de la estacion de los usuario.
 
@@ -87,7 +85,7 @@ Podemos observar que para cada período, los datos presentan diferentes  número
 
 ## Instalación
 
-Se remcomienda clonar este repositorio o copiar manualmente el fichero `localpacks` en el directorio de trabajo.
+Se recomienda clonar este repositorio o copiar manualmente el fichero `localpacks` en el directorio de trabajo.
 
 ## Uso
 
@@ -102,8 +100,6 @@ draw_mult_map(df_geo,tiendas)
 
 ```
 ![Mapa de Estaciones y Tiendas](images/map.png))
-
-**nota:** localpacks es un paquete diseñado específicamente para trabajar con estos datasets.
 
 
 ## Acerca de localpacks
