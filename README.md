@@ -67,6 +67,8 @@ Podemos observar que para cada período, los datos presentan diferentes  número
 
 - `CasoInicio.ipynb:` Se trabaja sobre todos los datos, dejando defindas todas las funciones, para trabajar con data frames limpios con formato y lo más homogeneos posible. **[Sin Iniciar]**
 
+- `CasoGPS.ipynb:` como tarea de exploración, visualizamos la posición de las estaciones en un mapa. **[Iniciado]**
+
 - `Caso2010..2018.ipynp:` Un notebook para estudiar individualmente cada dataframe.
   - df_2010: **[Sin Iniciar]**
   - df_2011: **[Sin Iniciar]**
@@ -99,7 +101,7 @@ df_tienda = get_data()
 
 
 #llamamos la función que dibuja nuestro mapa
-draw_mult_map(df_geo,tiendas)
+draw_mult_map(df_geo, df_tienda)
 
 ```
 ![Mapa de Estaciones y Tiendas](images/map.png))
