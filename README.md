@@ -93,9 +93,12 @@ Se recomienda clonar este repositorio o copiar manualmente el fichero `localpack
 from localpacks.maps import draw_map, draw_mult_map
 from localpacks.data import get_data,format_data, clean_garbage
 
+#generamos nuestros data sets
 df_geo = get_data()
 df_tienda = get_data()
 
+
+#llamamos la función que dibuja nuestro mapa
 draw_mult_map(df_geo,tiendas)
 
 ```
@@ -104,7 +107,16 @@ draw_mult_map(df_geo,tiendas)
 
 ## Acerca de localpacks
 
-Se trata de un concepto genérico que promueve como flujo de trabajo, ir compilando el código generado inicialmente en las notebooks en paquetes python.
+Se trata de un concepto genérico que promueve como flujo de trabajo ir compilando el código generado inicialmente en las notebooks en paquetes python, en otras palabras, vamos tomando el código que utilizamos para generar **una determinada acción** y lo hacemos una función o clase en localpacks. Por ejemplo:
+
+- Si nuestra acción consiste en georeferenciar las coordenadas de las estaciones en un mapa:
+
+    - **Primero:** generamos las lineas de código necesarias para verlas en nuestro notebook.
+    - **Segundo:** creamos una función `draw_mult_map` basada en el código previamente generado.
+    - **Tercero:** ahora podremos hacer el llamado de nuestra función.
+    
+**Nota:** `get_pack`es una función de localpacks que nos carga nuestros data sets desde la fuente y con los parámetros correctos.
+
 
 ## License
 
