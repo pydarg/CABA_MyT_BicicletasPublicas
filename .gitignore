@@ -105,3 +105,7 @@ venv.bak/
 
 # data
 /notebooks/data/*.csv
+
+# kernels
+
+/notebooks/kernels
