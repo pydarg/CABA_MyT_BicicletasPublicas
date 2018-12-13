@@ -64,21 +64,21 @@ def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
         data = None
         print('data = NONE. Debe escoger un rango de fechas entre 2010 y 2018')
     
-    print('El pandas.DataFrame se ha cargado correctamente para el periodo:', str(year),'\n',
-    """
-    BICICLETAS PUBLICAS -- BUENOS AIRES\n
-    PERIODOS DISPONIBLES: 
-    2011,2012,2013,2014,2015,2016,2017,2018
-    DESCRIPCION:
-    Información Información del sistema de transporte público desde sus inicios hasta la actualidad.
-    CONTENIDO:
-    Recorrido,horarios, detalles de origen y destino de cada uno de los viajes realizados.
-    EXTRA:
-    Para información sobre las estaciones de bicicletas se puede acceder al dataset Estaciones de Bicicletas Públicas.
-    NOTA:
-    Los recursos 2015 y 2016 contienen menos campos debido a un cambio en el sistema.
-    """
-    )
+    #print('El pandas.DataFrame se ha cargado correctamente para el periodo:', str(year),'\n',
+    #"""
+    #BICICLETAS PUBLICAS -- BUENOS AIRES\n
+    #PERIODOS DISPONIBLES: 
+    #2011,2012,2013,2014,2015,2016,2017,2018
+    #DESCRIPCION:
+    #Información Información del sistema de transporte público desde sus inicios hasta la actualidad.
+    #CONTENIDO:
+    #Recorrido,horarios, detalles de origen y destino de cada uno de los viajes realizados.
+    #EXTRA:
+    #Para información sobre las estaciones de bicicletas se puede acceder al dataset Estaciones de Bicicletas Públicas.
+    #NOTA:
+    #Los recursos 2015 y 2016 contienen menos campos debido a un cambio en el sistema.
+    #"""
+    #)
     return data
 
 
