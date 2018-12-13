@@ -2,7 +2,7 @@ import os
 from urllib.request import urlretrieve
 import pandas as pd
 
-#FUENTE DE DATOS
+#DATOS PRINCIPALES
 URL = {'2010' : r'https://data.buenosaires.gob.ar/api/files/recorridos-realizados-2010.csv/download/csv',
        '2011' : r'https://data.buenosaires.gob.ar/api/files/recorridos-realizados-2011.csv/download/csv',
        '2012' : r'https://data.buenosaires.gob.ar/api/files/recorridos-realizados-2012.csv/download/csv',
@@ -25,20 +25,20 @@ FILENAME = {'2010' : r'./data/recorridos-realizados-2010.csv',
 
 #DATOS ADICIONALES
 URL_OTHERS = {'estaciones' : r'https://data.buenosaires.gob.ar/api/files/estaciones-de-bicicletas-publicas.csv/download/csv',
-              'bicicleterias' : r'https://data.buenosaires.gob.ar/api/files/bicicleterias-de-la-ciudad.csv/download/csv'
-             }
+              'bicicleterias' : r'https://data.buenosaires.gob.ar/api/files/bicicleterias-de-la-ciudad.csv/download/csv'}
 
-FILENAME_OTHER = { 'estaciones' : r'./data/estaciones-de-bicicletas-publicas.csv',
-                  'bicicleterias' : r'./data/bicicleterias-de-la-ciudad.csv'
-                 }
+FILENAME_OTHER = {'estaciones' : r'./data/estaciones-de-bicicletas-publicas.csv',
+                  'bicicleterias' : r'./data/bicicleterias-de-la-ciudad.csv'}
 
 #FUNCIONES
-def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
+def get_data(year = 2018, apply_format = False, filename = FILENAME, url = URL, force_download=False):
     '''    
     PARAMETERS
     ----------
     year: integer (optional)
         periodo de recoleccion de los datos, por defecto 2017
+    apply_format: boolean(optional)
+        si es True, devuelve un data set con formato de atributos y columnas
     filename: string (optional)
         ruta donde se almacena el data set
     url: string (optional)
@@ -51,36 +51,22 @@ def get_data(year = 2017, filename = FILENAME, url = URL, force_download=False):
         retorna un data frame con los datos del sistema de transporte público argentino, en el [year] escogido
     EXAMPLES
     --------
-    None
+    df = get_data( year=2017, pply_format = True)
     '''
-    if str(year) in url.keys():#verificamos si el periodo de estudio esta disponible
+    if str(year) in url.keys():#verificamos que el periodo de estudio este disponible
         if force_download or not os.path.exists(filename[str(year)]):
             urlretrieve( url[str(year)], filename[str(year)])
         if str(year) in ['2015', '2016', '2017', '2018']:#estos periodos tienen parametros de coding particulares
             data = pd.read_csv(filename[str(year)], sep=",", thousands=".", decimal=",") #Parametros recomendados en http://datos.gob.ars
         else:
             data = pd.read_csv(filename[str(year)], sep=";", thousands=".", decimal=",") #Parametros recomendados en http://datos.gob.ars
+            if apply_format == True:
+                data = format_data(data, str(year))
     else:
         data = None
         print('data = NONE. Debe escoger un rango de fechas entre 2010 y 2018')
     
-    #print('El pandas.DataFrame se ha cargado correctamente para el periodo:', str(year),'\n',
-    #"""
-    #BICICLETAS PUBLICAS -- BUENOS AIRES\n
-    #PERIODOS DISPONIBLES: 
-    #2011,2012,2013,2014,2015,2016,2017,2018
-    #DESCRIPCION:
-    #Información Información del sistema de transporte público desde sus inicios hasta la actualidad.
-    #CONTENIDO:
-    #Recorrido,horarios, detalles de origen y destino de cada uno de los viajes realizados.
-    #EXTRA:
-    #Para información sobre las estaciones de bicicletas se puede acceder al dataset Estaciones de Bicicletas Públicas.
-    #NOTA:
-    #Los recursos 2015 y 2016 contienen menos campos debido a un cambio en el sistema.
-    #"""
-    #)
     return data
-
 
 def get_data_others(select = 'estaciones', format_data = True, filename = FILENAME_OTHER, url = URL_OTHERS, force_download=False):
     '''    
@@ -118,6 +104,27 @@ def get_data_others(select = 'estaciones', format_data = True, filename = FILENA
         print('data = NONE. El data set que intenta seleccionar no existe en URL_OTHER.keys()')
     return data
 
+def format_data(df, year):
+    
+    if year == '2010':
+        
+        #FORMATOS
+        df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamos
+        df['TIEMPOUSO'] = df['TIEMPOUSO'] * 60 #convertimos minutos(m) a segundos(s)
+        
+        #ELIMINAMOS
+        del df['PERIODO'] #pasa a ser metadato
+        del df['ORIGENFECHA'] 
+        del df['DESTINOFECHA']
+        
+        #RENOMBRES
+        columns = ['origen_id', 'origen_nombre', 'destino_id', 'destino_nombre', 'tiempo_uso(s)']
+        df.columns = columns
+    
+    return df
+
+
+
 def format_estaciones(df):
     '''
     PARAMETERS
@@ -150,39 +157,6 @@ def format_bicicleterias(df):
     return df
 
 
-
-
-def format_data(df):
-    """
-    PARAMETERS
-    ----------
-    df: pandas DataFrame (obligatorio)
-        toma un pandas DataFrame con datos crudos
-    RETURN
-    ------
-    df: pandas.DataFrame
-        retorna pandas DataFrame con datos en formato pandas
-    """
-    #1.Damos formato e indexamos
-    df.index = pd.to_datetime(df['fecha_hora_retiro'], format='%d/%m/%Y %H:%M:%S')#
-    
-    #2.Eliminamos 'periodo' dado que se trata de un valor trivial y la 'fecha_horaretiro' que fue pasada como indice
-    del df['periodo']
-    del df['fecha_hora_retiro']
-    
-    #3.Convertimos 'tiempo_uso' en un timedelta
-    extrae_horas = df['tiempo_uso'].str.extract('(?P<h>[0-99]*)h (?P<m>[0-99]*)min (?P<s>[0-99]*)seg', expand=False)#extramos el valos numerico de las horas, minutos y segundos
-    extrae_horas['tiempo_uso'] = extrae_horas.h +':'+ extrae_horas.m +':'+ extrae_horas.s#creamos una nueva columna juntando los valores numericos
-    df['tiempo_uso'] = pd.to_datetime(extrae_horas['tiempo_uso'], format='%H:%M:%S') #sobreescribimos la original con un formato tiempo #NOTA: no se como eliminarle el dia y trabajar unicamente con la hora.
-    
-    print("""
-    TAREAS REALIZADAS:\n 
-          1.Dimos formato a 'fecha hora retiro' y la pasamos como indice.\n
-          2.Eliminamos la columna 'periodo'.\n
-          3.Convertimos 'tiempo_uso' en un timedelta.
-    """)
-    
-    return df
 
 def clean_garbage(df):
     '''
