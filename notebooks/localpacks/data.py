@@ -106,10 +106,12 @@ def get_data_others(select = 'estaciones', format_data = True, filename = FILENA
 
 def format_data(df, year):
     
-    if year == '2010':
-        
+    if year in ['2010','2011','2012']:
         #FORMATOS
-        df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamos
+        if year == '2012':
+            df.index = pd.to_datetime(df['ORIGENFECHA'], format='%Y-%m-%d %H:%M:%S.%f') #damos formato de fecha e indexamos
+        else:
+            df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamos
         df['TIEMPOUSO'] = df['TIEMPOUSO'] * 60 #convertimos minutos(m) a segundos(s)
         
         #ELIMINAMOS
