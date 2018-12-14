@@ -122,6 +122,21 @@ def format_data(df, year):
         #RENOMBRES
         columns = ['origen_id', 'origen_nombre', 'destino_id', 'destino_nombre', 'tiempo_uso(s)']
         df.columns = columns
+        
+    elif year in ['2013','2014']:
+        #FORMATOS
+        df.index = pd.to_datetime(df['ORIGEN_FECHA'], format='%Y-%m-%d %H:%M:%S.%f')
+        #calculamos el tiempo_uso
+        df['ORIGEN_FECHA'] = pd.to_datetime(df['ORIGEN_FECHA'], format='%Y-%m-%d %H:%M:%S.%f') 
+        df['DESTINO_FECHA'] = pd.to_datetime(df['DESTINO_FECHA'], format='%Y-%m-%d %H:%M:%S.%f')
+        df['tiempo_uso'] = df['DESTINO_FECHA'] - df['ORIGEN_FECHA']
+        df['tiempo_uso']=pd.to_timedelta(df['tiempo_uso']).dt.seconds
+        #ELIMINAMOS
+        del df['ORIGEN_FECHA'] 
+        del df['DESTINO_FECHA']
+        #RENOMBRES
+        columns = ['usuario_id', 'origen_nombre', 'destino_nombre', 'tiempo_uso(s)']
+        df.columns = columns
     
     return df
 
