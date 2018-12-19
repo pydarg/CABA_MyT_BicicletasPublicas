@@ -109,10 +109,18 @@ def format_data(df, year):
     if year in ['2010','2011','2012']:
         #FORMATOS
         if year == '2012':
+            #una minoria de instancias tienen un formato extraño, por lo que las descartamos aplicando el siguiente filtro
+            df['ORIGENFECHA_len'] = df['ORIGENFECHA'].apply(lambda x: len(str(x)))
+            len_origenfecha_mean = int(df['ORIGENFECHA_len'].mean()) #longitud media de caracteres
+            df = df[df['ORIGENFECHA_len'] >= len_origenfecha_mean] #las menores son fechas con formato distinto
+                      
+            #ELIMINAMOS
+            del df['ORIGENFECHA_len']
+                    
             df.index = pd.to_datetime(df['ORIGENFECHA'], format='%Y-%m-%d %H:%M:%S.%f') #damos formato de fecha e indexamos
         else:
             df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamos
-        df['TIEMPOUSO'] = df['TIEMPOUSO'] * 60 #convertimos minutos(m) a segundos(s)
+        df['TIEMPOUSO'] = df['TIEMPOUSO'].astype('int64', errors='ignore') * 60 #convertimos minutos(m) a segundos(s)
         
         #ELIMINAMOS
         del df['PERIODO'] #pasa a ser metadato
