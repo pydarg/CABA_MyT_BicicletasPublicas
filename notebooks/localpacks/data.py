@@ -52,7 +52,7 @@ def get_data(year = 2018, apply_format = False, filename = FILENAME, url = URL, 
         retorna un data frame con los datos del sistema de transporte público argentino, en el [year] escogido
     EXAMPLES
     --------
-    df = get_data( year=2017, pply_format = True)
+    df = get_data( year=2017, apply_format = True)
     '''
     if str(year) in url.keys():#verificamos que el periodo de estudio este disponible
         if force_download or not os.path.exists(filename[str(year)]):
@@ -149,7 +149,7 @@ def format_data(df, year):
         columns = ['usuario_id', 'origen_nombre', 'destino_nombre', 'tiempo_uso(s)']
         df.columns = columns
         
-    elif year in ['2015']:
+    elif year in ['2015', '2016','2017']:
         
         df = convert_time_delta(df)
         #FORMATOS
