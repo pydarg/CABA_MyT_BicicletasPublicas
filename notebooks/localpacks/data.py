@@ -1,6 +1,7 @@
 import os
 from urllib.request import urlretrieve
 import pandas as pd
+import numpy as np
 
 #DATOS PRINCIPALES
 URL = {'2010' : r'https://data.buenosaires.gob.ar/api/files/recorridos-realizados-2010.csv/download/csv',
@@ -58,6 +59,8 @@ def get_data(year = 2018, apply_format = False, filename = FILENAME, url = URL, 
             urlretrieve( url[str(year)], filename[str(year)])
         if str(year) in ['2015', '2016', '2017', '2018']:#estos periodos tienen parametros de coding particulares
             data = pd.read_csv(filename[str(year)], sep=",", thousands=".", decimal=",") #Parametros recomendados en http://datos.gob.ars
+            if apply_format == True:
+                data = format_data(data, str(year))
         else:
             data = pd.read_csv(filename[str(year)], sep=";", thousands=".", decimal=",") #Parametros recomendados en http://datos.gob.ars
             if apply_format == True:
@@ -119,7 +122,7 @@ def format_data(df, year):
                     
             df.index = pd.to_datetime(df['ORIGENFECHA'], format='%Y-%m-%d %H:%M:%S.%f') #damos formato de fecha e indexamos
         else:
-            df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamos
+            df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamosss
         df['TIEMPOUSO'] = df['TIEMPOUSO'].astype('int64', errors='ignore') * 60 #convertimos minutos(m) a segundos(s)
         
         #ELIMINAMOS
@@ -144,6 +147,20 @@ def format_data(df, year):
         del df['DESTINO_FECHA']
         #RENOMBRES
         columns = ['usuario_id', 'origen_nombre', 'destino_nombre', 'tiempo_uso(s)']
+        df.columns = columns
+        
+    elif year in ['2015']:
+        
+        df = convert_time_delta(df)
+        #FORMATOS
+        df.index = pd.to_datetime(df['fecha_hora_retiro'], format='%d/%m/%Y %H:%M:%S')
+        
+        #ELIMINAMOS
+        del df['periodo']
+        del df['fecha_hora_retiro']
+        
+        #RENOMBRES
+        columns = ['genero', 'origen_id','origen_nombre','destino_id', 'destino_nombre', 'tiempo_uso(s)']
         df.columns = columns
     
     return df
@@ -179,6 +196,20 @@ def format_bicicleterias(df):
     df.drop(['calle','altura','calle2','telefono','email','web','mecanica_s','horario_de','barrio','comuna','codigo_postal','codigo_postal_argentino'],
                  axis = 1, inplace = True) #eliminamos las columnas que no usaremos
     df = df[['nombre', 'lat', 'long']] #reordenamos el orden de las columnas
+    return df
+
+def convert_time_delta(df):
+    tiempo_uso_split = df['tiempo_uso'].str.split('([0-1]?\d|2[0-3])h ([0-5]?\d)min ([0-5]?\d)seg')
+    seconds =[]
+    for i in range(len(tiempo_uso_split)):
+        try:
+            h, m, s = map(int, tiempo_uso_split[i][1:4])
+            seconds.append(pd.Timedelta(hours=h, minutes=m, seconds=s).seconds)
+        except:
+            np.nan
+    del df['tiempo_uso'] #eliminamos el tiempo en formato string
+    seconds = pd.DataFrame(seconds, columns = ['tiempo_uso(s)'])
+    df = pd.concat([df.iloc[:,:], seconds], axis = 1)
     return df
 
 
