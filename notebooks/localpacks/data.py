@@ -151,7 +151,7 @@ def format_data(df, year):
         
     elif year in ['2015', '2016','2017']:
         
-        df = convert_time_delta(df)
+        df = convert_time_delta_str(df)
         #FORMATOS
         df.index = pd.to_datetime(df['fecha_hora_retiro'], format='%d/%m/%Y %H:%M:%S')
         
@@ -161,6 +161,19 @@ def format_data(df, year):
         
         #RENOMBRES
         columns = ['genero', 'origen_id','origen_nombre','destino_id', 'destino_nombre', 'tiempo_uso(s)']
+        df.columns = columns
+    
+    else:
+        df = convert_time_delta(df)
+        
+        #FORMATOS
+        df.index = pd.to_datetime(df['bici_fecha_hora_retiro'], format='%Y-%m-%d %H:%M:%S')
+        
+        #ELIMINAMOS
+        del df['bici_fecha_hora_retiro']
+        
+        #RENOMBRES
+        columns = ['usuario_id', 'origen_nombre', 'origen_id','destino_nombre', 'destino_id', 'usuario_genero', 'usario_edad', 'tiempo_uso(s)']
         df.columns = columns
     
     return df
@@ -199,6 +212,20 @@ def format_bicicleterias(df):
     return df
 
 def convert_time_delta(df):
+    tiempo_uso_split = df['bici_tiempo_uso']
+    seconds =[]
+    for i in range(len(tiempo_uso_split)):
+        try:
+            h, m, s = map(int, tiempo_uso_split[i].split(':'))
+            seconds.append(pd.Timedelta(hours=h, minutes=m, seconds=s).seconds)
+        except:
+            np.nan
+    del df['bici_tiempo_uso'] #eliminamos el tiempo en formato string
+    seconds = pd.DataFrame(seconds, columns = ['tiempo_uso(s)'])
+    df = pd.concat([df.iloc[:,:], seconds], axis = 1)
+    return df
+
+def convert_time_delta_str(df):
     tiempo_uso_split = df['tiempo_uso'].str.split('([0-1]?\d|2[0-3])h ([0-5]?\d)min ([0-5]?\d)seg')
     seconds =[]
     for i in range(len(tiempo_uso_split)):
