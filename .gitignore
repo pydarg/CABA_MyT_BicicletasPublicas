@@ -116,3 +116,6 @@ venv.bak/
 
 # Visual Studio Code
 .vscode/
+
+# Visual Studio Code
+ notebooks/openstreetmap_argentina
