@@ -23,52 +23,28 @@
 
 Se trabaja sobre un conjunto de data sets:
 
-```python
-- #df_2010.csv
-    - columns=['PERIODO', 'ORIGENFECHA', 'ORIGENESTACIONID', 'ORIGENNOMBRE', 'DESTINOFECHA',
-               'DESTINOESTACIONID', 'DESTINONOMBRE', 'TIEMPOUSO']
-    - sep=';'
-- #df_2011.csv
-    - columns=['PERIODO', 'ORIGENFECHA', 'ORIGENESTACIONID', 'NOMBREORIGEN', 'DESTINOFECHA',
-               'DESTINOESTACIONID', 'NOMBREDESTINO', 'TIEMPOUSO']
-    - sep=';'
-- #df_2012.csv
-    - columns=['PERIODO', 'ORIGENFECHA', 'ORIGENESTACIONID', 'ORIGENNOMBRE', 'DESTINOFECHA',
-               'DESTINOESTACIONID', 'DESTINONOMBRE', 'TIEMPOUSO']
-    - sep=';'
-- #df_2013.csv
-    - columns=['ID', 'NOMBRE_ORIGEN', 'ORIGEN_FECHA', 'DESTINO_ESTACION', 'DESTINO_FECHA']
-    - sep=';'
-- #df_2014.csv
-    - columns=['ID', 'NOMBRE_ORIGEN', 'ORIGEN_FECHA', 'DESTINO_ESTACION', 'DESTINO_FECHA']
-    - sep=';'
-- #df_2015.csv
-    - columns=['periodo', 'genero', 'fecha_hora_retiro', 'origen_estacion', 'nombre_origen', 
-               'destino_estacion', 'nombre_destino, tiempo_uso']
-    - sep=','
-- #df_2016.csv
-    - columns=['periodo', 'genero', 'fecha_hora_retiro', 'origen_estacion', 'nombre_origen', 
-               'destino_estacion', 'nombre_destino', 'tiempo_uso']
-    - sep=','
-- #df_2017.csv
-    - columns=['periodo', 'genero', 'fecha_hora_retiro', 'origen_estacion', 'nombre_origen', 
-               'destino_estacion', 'nombre_destino', 'tiempo_uso']
-    - sep=','
-- #df_2018.csv
-     - columns=['id_usuario', 'bici_fecha_hora_retiro', 'bici_tiempo_uso', 'bici_nombre_estacion_origen',
-                'bici_estacion_origen', 'bici_nombre_estacion_destino', 'bici_estacion_destino', 'bici_sexo', 'bici_edad']
-     - sep=','
+2010 al 2012 | 2013 al 2014 | 2015 al 2017 | 2018
+------------ | ------------- | ------------ | -------------
+periodo | -- | periodo | --
+-- | usuario_id | -- | usuario_id
+origen_fecha, origen_id, origen_nombre | origen_fecha, origen_id, origen_nombre | origen_fecha, origen_id, origen_nombre | origen_fecha, origen_id, origen_nombre
+destino_fecha, destino_id, destino_nombre| destino_fecha, destino_id, destino_nombre | destino_id, destino_nombre | destino_id, destino_nombre
+tiempo_uso | -- | tiempo_uso | tiempo_uso
+-- | -- | -- | usario_edad
+-- | -- | usuario_genero | usuario_genero
 
-```
 
 Podemos observar que para cada período, los datos presentan diferentes  número de atributos, y que las columnas que contienen el mismo atributo diferen en el nombre, por lo tanto, en principio no resulta posible plantear un estudio geneneral para todos los años.
 
 ## MAIN WORKFLOW
+### Casos Generales
+0. [00.00-Inicio.ipynb](./notebooks/00.00-Inicio.ipynb): Se trabaja sobre todos los datos, dejando defindas todas las funciones, para trabajar con data frames limpios con formato y lo más homogeneos posible.
 
-- `CasoInicio.ipynb:` Se trabaja sobre todos los datos, dejando defindas todas las funciones, para trabajar con data frames limpios con formato y lo más homogeneos posible. **[Sin Iniciar]**
+1. [00.01-Xarray.ipynb](./notebooks/00.01-Xarray.ipynb): Integramos los data frames de todos los años en un solo `dask.array`.
 
-- `CasoGPS.ipynb:` como tarea de exploración, visualizamos la posición de las estaciones en un mapa. **[Iniciado]**
+2. [00.02-GPS.ipynb](./notebooks/00.02-GPS.ipynb) como tarea de exploración, visualizamos la posición de las estaciones en un mapa multimedia.
 
+### Casos Particulares
 - `Caso2010..2018.ipynp:` Un notebook para estudiar individualmente cada dataframe.
   - df_2010: **[Sin Iniciar]**
   - df_2011: **[Sin Iniciar]**
