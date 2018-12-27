@@ -173,7 +173,7 @@ def format_data(df, year):
         del df['bici_fecha_hora_retiro']
         
         #RENOMBRES
-        columns = ['usuario_id', 'origen_nombre', 'origen_id','destino_nombre', 'destino_id', 'usuario_genero', 'usario_edad', 'tiempo_uso(s)']
+        columns = ['usuario_id', 'origen_nombre', 'origen_id','destino_nombre', 'destino_id', 'usuario_genero', 'usuario_edad', 'tiempo_uso(s)']
         df.columns = columns
     
     return df
