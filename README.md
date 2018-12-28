@@ -40,24 +40,18 @@ Podemos observar que para cada período, los datos presentan diferentes  número
 ### Casos Generales
 0. [00.00-Inicio.ipynb](./notebooks/00.00-Inicio.ipynb): Se trabaja sobre todos los datos, dejando defindas todas las funciones, para trabajar con data frames limpios con formato y lo más homogeneos posible.
 
-1. [00.01-Xarray.ipynb](./notebooks/00.01-Xarray.ipynb): Integramos los data frames de todos los años en un solo `dask.array`.
+1. [00.01-Xarray.ipynb](./notebooks/00.01-Xarray.ipynb): Integramos los dataframes de todos los años en un solo `dask.array`.
 
-2. [00.02-GPS.ipynb](./notebooks/00.02-GPS.ipynb) como tarea de exploración, visualizamos la posición de las estaciones en un mapa multimedia.
+2. [00.02-Caso General](): Contiene todos los períodos de estudio ye xploramos nuestros datos con DASK.
+
+3. [00.03-GPS.ipynb](./notebooks/00.03-GPS.ipynb) como tarea de exploración, visualizamos la posición de las estaciones en un mapa multimedia.
 
 ### Casos Particulares
-- `Caso2010..2018.ipynp:` Un notebook para estudiar individualmente cada dataframe.
-  - df_2010: **[Sin Iniciar]**
-  - df_2011: **[Sin Iniciar]**
-  - df_2012: **[Sin Iniciar]**
-  - df_2013: **[Sin Iniciar]**
-  - df_2014: **[Sin Iniciar]**
-  - df_2015: **[Sin Iniciar]**
-  - df_2016: **[Sin Iniciar]**
-  - df_2017: **[Sin Iniciar]**
-  - df_2018: **[Iniciado]**
-  
-- `CasoGeneral.ipynb:` Se hace un estudio tomando en cuenta todos los periodos.
-  - Estado: **[Sin Iniciar]**
+
+1. [DF2018-0-Data-Analitycs.ipynb](./notebooks/DF2018-0-Data-Analitycs.ipynb): Análisis estadisticos de los datos.
+    1.1 [DF2018-1-Definicion-de-Clusters.ipynb](./notebooks/DF2018-1-Definicion-de-Clusters.ipynb): Aproximamos unos posibles casos, que pueden explicar la distribución de los clusters.
+    1.2 [DF2018-2-Clusters.ipynb](./notebooks/DF2018-2-Clusters.ipynb): Clustering.
+    1.3 [DF2018-2-Clusters-DASK.ipynb](./notebooks/DF2018-3-Clusters-DASK.ipynb): Clustering usando DASK.
 
 
 ## Software
@@ -79,7 +73,7 @@ $ conda create -n BICIS python=3.5 --file requirements.txt
 
 Puedes leer más acerca de entornos virtuales en [Managing Environments](http://conda.pydata.org/docs/using/envs.html) en la documentación de conda.
 
-**IMPORTANTE:** El fichero `localpacks`es un paquete creado lcoalmente, por lo que se recomienda clonar este repositorio o copiar manualmente el fichero `localpacks` en el directorio de trabajo.
+**IMPORTANTE:**  `localpacks`es un paquete creado localmente, y por lo tanto, se recomienda clonarlo directamente de este repositorio o copiar manualmente el fichero `localpacks` en el directorio de trabajo.
 
 ## Uso
 
@@ -109,7 +103,7 @@ Se trata de un concepto genérico que promueve como flujo de trabajo ir compilan
     - **Segundo:** creamos una función `draw_mult_map` basada en el código previamente generado.
     - **Tercero:** ahora podremos hacer el llamado de nuestra función.
     
-**Nota:** `get_pack`es una función de localpacks que nos carga nuestros data sets desde la fuente y con los parámetros correctos.
+**Nota:** `get_data`es una función de localpacks que carga nuestros data sets desde la fuente y con los parámetros correctos.
 
 
 ## License
