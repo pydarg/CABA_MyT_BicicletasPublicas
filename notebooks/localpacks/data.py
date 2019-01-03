@@ -119,8 +119,9 @@ def format_data(df, year):
                       
             #ELIMINAMOS
             del df['ORIGENFECHA_len']
-                    
+                                
             df.index = pd.to_datetime(df['ORIGENFECHA'], format='%Y-%m-%d %H:%M:%S.%f') #damos formato de fecha e indexamos
+            
         else:
             df.index = pd.to_datetime(df['ORIGENFECHA'], format='%d/%m/%Y %H:%M') #damos formato de fecha e indexamosss
         df['TIEMPOUSO'] = df['TIEMPOUSO'].astype('int64', errors='ignore') * 60 #convertimos minutos(m) a segundos(s)
@@ -131,6 +132,7 @@ def format_data(df, year):
         del df['DESTINOFECHA']
         
         #RENOMBRES
+        df.index.rename('fecha_uso', inplace=True)
         columns = ['origen_id', 'origen_nombre', 'destino_id', 'destino_nombre', 'tiempo_uso(s)']
         df.columns = columns
         
@@ -146,6 +148,7 @@ def format_data(df, year):
         del df['ORIGEN_FECHA'] 
         del df['DESTINO_FECHA']
         #RENOMBRES
+        df.index.rename('fecha_uso', inplace=True)
         columns = ['usuario_id', 'origen_nombre', 'destino_nombre', 'tiempo_uso(s)']
         df.columns = columns
         
@@ -160,6 +163,7 @@ def format_data(df, year):
         del df['fecha_hora_retiro']
         
         #RENOMBRES
+        df.index.rename('fecha_uso', inplace=True)
         columns = ['genero', 'origen_id','origen_nombre','destino_id', 'destino_nombre', 'tiempo_uso(s)']
         df.columns = columns
     
@@ -173,6 +177,7 @@ def format_data(df, year):
         del df['bici_fecha_hora_retiro']
         
         #RENOMBRES
+        df.index.rename('fecha_uso', inplace=True)
         columns = ['usuario_id', 'origen_nombre', 'origen_id','destino_nombre', 'destino_id', 'usuario_genero', 'usuario_edad', 'tiempo_uso(s)']
         df.columns = columns
     
