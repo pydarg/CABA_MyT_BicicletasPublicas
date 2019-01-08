@@ -71,7 +71,7 @@ def get_data(year = 2018, apply_format = False, filename = FILENAME, url = URL, 
     
     return data
 
-def get_data_others(select = 'estaciones', format_data = True, filename = FILENAME_OTHER, url = URL_OTHERS, force_download=False):
+def get_data_others(select = 'estaciones', apply_format = False, filename = FILENAME_OTHER, url = URL_OTHERS, force_download=False):
     '''    
     PARAMETERS
     ----------
@@ -98,9 +98,9 @@ def get_data_others(select = 'estaciones', format_data = True, filename = FILENA
             urlretrieve( url[select], filename[select])
         
         data = pd.read_csv(filename[select]) 
-        if select == 'estaciones' and format_data == True:
+        if select == 'estaciones' and  apply_format == True:
             data = format_estaciones(data)
-        elif select == 'bicicleterias' and format_data == True:
+        elif select == 'bicicleterias' and apply_format == True:
             data = format_bicicleterias(data)
     else:
         data = None
