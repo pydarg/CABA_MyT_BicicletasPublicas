@@ -34,7 +34,7 @@ tiempo_uso | -- | tiempo_uso | tiempo_uso
 -- | -- | usuario_genero | usuario_genero
 
 
-Podemos observar que para cada período, los datos presentan diferentes  número de atributos, y que las columnas que contienen el mismo atributo diferen en el nombre, por lo tanto, en principio no resulta posible plantear un estudio geneneral para todos los años.
+Podemos observar que para cada período, los datos presentan diferentes  número de atributos, y que las columnas que contienen el mismo atributo diferen en el nombre, por lo tanto, en princyipio no resulta posible plantear un estudio geneneral para todos los años.
 
 ## MAIN WORKFLOW
 ### Casos Generales
